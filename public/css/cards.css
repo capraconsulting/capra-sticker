@@ -1,0 +1,88 @@
+:root {
+  --card-radius: 50px;
+}
+
+.card__translater {
+  display: grid;
+  perspective: 600px;
+  transform-origin: center;
+}
+
+.card__front {
+  background-color: hsl(193, 33%, 71%);
+}
+
+.card__rotator {
+  transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  transform-style: preserve-3d;
+  box-shadow: 0 0 3px -1px transparent, 0 0 2px 1px transparent,
+    0 0 5px 0px transparent, 0px 10px 20px -5px black, 0 2px 15px -5px black,
+    0 0 20px 0px transparent;
+  border-radius: var(--card-radius);
+}
+
+.card__rotator * {
+  display: grid;
+  grid-area: 1/1;
+  border-radius: var(--card-radius);
+}
+
+/**
+  Masking Effects
+**/
+
+.card__shine {
+  z-index: 2;
+  mask-image: var(--mask);
+  mask-size: cover;
+  mask-position: center center;
+
+  --space: 8%;
+  background-image: url("/img/noise.png"),
+    repeating-linear-gradient(
+      82deg,
+      hsl(163, 81%, 48%) calc(var(--space) * 1),
+      hsl(215, 21%, 46%) calc(var(--space) * 2),
+      hsl(39, 53%, 63%) calc(var(--space) * 3),
+      hsl(238, 68%, 60%) calc(var(--space) * 4),
+      hsl(39, 63%, 47%) calc(var(--space) * 5),
+      hsl(154, 71%, 48%) calc(var(--space) * 6),
+      hsl(15, 72%, 58%) calc(var(--space) * 7),
+      hsl(57, 83%, 46%) calc(var(--space) * 8),
+      hsl(108, 76%, 48%) calc(var(--space) * 9),
+      hsl(228, 21%, 39%) calc(var(--space) * 10),
+      hsl(238, 68%, 58%) calc(var(--space) * 11),
+      hsl(187, 91%, 40%) calc(var(--space) * 12)
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--pointer-x) var(--pointer-y),
+      hsla(180, 100%, 89%, 0.5) 5%,
+      hsla(180, 14%, 57%, 0.3) 40%,
+      hsl(0, 0%, 13%) 130%
+    );
+
+  background-blend-mode: color-burn, multiply;
+  mix-blend-mode: color-dodge;
+
+  background-position: var(--noisebg, center center),
+    calc(10% + (var(--pointer-from-left) * 80%))
+      calc(10% + (var(--pointer-from-top) * 80%)),
+    center center;
+
+  background-size: cover, 600% 700%, cover;
+  filter: brightness(1.5) contrast(1) saturate(1.5);
+}
+
+/*
+  GLARE LAYERS
+*/
+
+.card__glare {
+  background-image: radial-gradient(
+    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+    hsla(0, 0%, 89%, 0.8) 5%,
+    rgb(33, 32, 32) 150%
+  );
+  filter: brightness(0.75) contrast(2) saturate(1.5);
+  mix-blend-mode: overlay;
+}
